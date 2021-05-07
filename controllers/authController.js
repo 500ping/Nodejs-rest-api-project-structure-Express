@@ -32,11 +32,20 @@ exports.login = async (req, res, next) => {
     // 2) check if user exist and password is correct
     const user = await User.findOne({
       email,
-    }).select("+password");
+    }).select("role name email password active");
 
     if (!user || !(await user.correctPassword(password, user.password))) {
       return next(
         new AppError(401, "fail", "Email or Password is wrong"),
+        req,
+        res,
+        next,
+      );
+    }
+
+    if (user.active === false) {
+      return next(
+        new AppError(403, "fail", "Your account is inactive"),
         req,
         res,
         next,

@@ -14,6 +14,11 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, " Please provide a valid email"],
   },
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
   address: {
     type: String,
     trim: true,
@@ -39,11 +44,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ["admin", "teacher", "student"],
     default: "student",
-  },
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
   },
 });
 
